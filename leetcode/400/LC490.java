@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class LC490 {
     public static void main(String[] args) {
         int[][] map = new int[][]{
