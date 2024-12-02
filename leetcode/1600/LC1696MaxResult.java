@@ -1,5 +1,7 @@
 import java.util.ArrayDeque;
+import java.util.Comparator;
 import java.util.Deque;
+import java.util.PriorityQueue;
 
 public class LC1696MaxResult {
     public static void main(String[] args) {
@@ -7,6 +9,30 @@ public class LC1696MaxResult {
     }
 
     public int maxResult(int[] nums, int k) {
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>(k, (a, b) -> b[1] - a[1]);
+        int[] ret = new int[nums.length];
+        ret[0] = nums[0];
+        pq.add(new int[]{0, nums[0]});
+
+        for (int i = 0; i < nums.length-1; i++) {
+            while(!pq.isEmpty() && i - pq.peek()[0] >= k){
+                pq.poll();
+            }
+            while (!pq.isEmpty() && pq.peek()[1] < ret[i]) {
+                pq.poll();
+            }
+
+            pq.add(new int[]{i, ret[i]});
+
+            ret[i+1] = pq.peek()[1] + nums[i+1];
+        }
+
+        return ret[nums.length-1];
+    }
+
+
+
+    public int maxResult2(int[] nums, int k) {
         int n = nums.length;
         int[] ret = new int[n];
         ret[0] = nums[0];
