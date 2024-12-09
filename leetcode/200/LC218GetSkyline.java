@@ -1,4 +1,3 @@
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -69,7 +68,4 @@ public class LC218GetSkyline {
             this.building = building;
         }
     }
-
-
-
 }
