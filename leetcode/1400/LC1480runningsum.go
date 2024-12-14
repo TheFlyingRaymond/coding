@@ -1,13 +1,8 @@
 func runningSum(nums []int) []int {
-	ret := nums[0:len(nums):len(nums)]
-
-	for i, v := range nums {
-		if i == 0 {
-			ret[i] = v
-		} else {
-			ret[i] = v + ret[i-1]
-		}
+	ret := make([]int, len(nums))
+	ret[0] = nums[0]
+	for i := 1; i < len(nums); i++ {
+		ret[i] = ret[i-1] + nums[i]
 	}
-
 	return ret
 }
