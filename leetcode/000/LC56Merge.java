@@ -4,18 +4,12 @@ public class LC56Merge {
     public int[][] merge(int[][] intervals) {
         Arrays.sort(intervals, Comparator.comparing(x -> x[0]));
         Stack<int[]> stack = new Stack<>();
-
         for (int[] item : intervals) {
-            if (stack.isEmpty()) {
+            if (stack.isEmpty() || stack.peek()[1] < item[0]) {
                 stack.push(item);
-                continue;
-            }
-
-            int[] pre = stack.peek();
-            if (pre[1] >= item[0]) {
-                pre[1] = Math.max(pre[1], item[1]);
             } else {
-                stack.push(item);
+                stack.peek()[1] = Math.max(stack.peek()[1], item[1]);
+
             }
         }
 
