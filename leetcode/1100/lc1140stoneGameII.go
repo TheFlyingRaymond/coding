@@ -1,38 +1,39 @@
 func stoneGameII(piles []int) int {
+	n := len(piles)
+	memo := make([][]int, n)
+	for i := 0; i < len(memo); i++ {
+		memo[i] = make([]int, 2*n)
+	}
+
 	sum := 0
 	for _, v := range piles {
 		sum += v
 	}
 
-	memo := make([][]*int, len(piles))
+	win := dfs(0, 1, piles, memo)
 
-	for i := range memo {
-		memeo[i] = make([]*int, 2*len(piles))
-	}
-
-	return dfs(piles, 0, 1, memeo, sum)
+	return (sum + win) / 2
 }
 
-func dfs(piles []int, start int, m int, memo [][]*int, sum int) int {
+func dfs(start int, m int, piles []int, memo [][]int) int {
 	if start >= len(piles) {
 		return 0
 	}
-
-	if memeo[start][m] != nil {
-		return memeo[start][m]
+	if memo[start][m] != 0 {
+		return memo[start][m]
 	}
 
-	ans, tmp := 0, 0
-
-	for i := 1; i <= 2*m; i++ {
-		tmp += piles[start+i-1]
-		ans = max(ans, sum-(dfs(start+i, max(m, i), piles, memo, sum-tmp)))
+	sum := piles[start]
+	win := sum - dfs(start+1, max(1, m), piles, memo)
+	for i := 2; i <= 2*m && start+i-1 < len(piles); i++ {
+		sum += piles[start+i-1]
+		win = max(win, sum-dfs(start+i, max(i, m), piles, memo))
 	}
-	memo[start][M] = &ans
-	return ans
+	memo[start][m] = win
+	return win
 }
 
-func max(a, b int) int {
+func max(a int, b int) int {
 	if a > b {
 		return a
 	}
